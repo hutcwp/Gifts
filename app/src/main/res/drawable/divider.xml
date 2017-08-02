@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--RecyclerView 的分割线-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#ab9f9f"/>
+    <size android:height="6dp"/>
+</shape>
+

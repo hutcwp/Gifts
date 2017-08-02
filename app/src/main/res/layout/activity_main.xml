@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="org.hutcwp.gifts.ui.MainActivity">
+
+
+        <org.hutcwp.gifts.view.TopTitle
+            android:id="@+id/ly_top_title"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </org.hutcwp.gifts.view.TopTitle>
+
+       <FrameLayout
+           android:id="@+id/content"
+           android:layout_width="match_parent"
+           android:layout_height="0dp"
+           android:layout_weight="1"
+           >
+
+       </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1sp"
+            android:background="#848484"
+            />
+
+        <include layout="@layout/ly_bottom_navi"
+            android:id="@+id/ly_bottom"/>
+
+    </LinearLayout>
+
+
+</layout>
+

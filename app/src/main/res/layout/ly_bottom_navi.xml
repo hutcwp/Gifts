@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_title_height"
+        android:padding="4dp">
+
+
+        <LinearLayout
+            android:id="@+id/ly_zone"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:orientation="vertical">
+
+            <ImageButton
+                style="@style/ib_h35_w35_transfer"
+                android:layout_alignParentLeft="true"
+                android:clickable="false"
+                android:src="@drawable/zone_selected" />
+
+            <TextView
+                style="@style/tv_bottom_title"
+                android:text="动态" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ly_home"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <ImageButton
+                style="@style/ib_h35_w35_transfer"
+                android:clickable="false"
+                android:padding="2dp"
+                android:src="@drawable/tab_home" />
+
+            <TextView
+                style="@style/tv_bottom_title"
+                android:text="主页" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ly_user"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical">
+
+            <ImageButton
+                style="@style/ib_h35_w35_transfer"
+                android:layout_gravity="center_horizontal"
+                android:clickable="false"
+                android:src="@drawable/tab_user" />
+
+            <TextView
+                style="@style/tv_bottom_title"
+                android:text="个人中心" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</layout>
+

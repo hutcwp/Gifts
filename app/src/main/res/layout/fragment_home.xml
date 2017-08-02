@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="org.hutcwp.gifts.ui.MainActivity">
+
+
+        <LinearLayout
+            android:id="@+id/ly_banner"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#836482"
+            android:orientation="vertical">
+
+            <ImageSwitcher
+                android:id="@+id/image_switcher"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </ImageSwitcher>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/ly_function"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#fff"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/item_music"
+                style="@style/ib_h65_w65_item"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="60dp"
+                android:layout_marginTop="45dp"
+                android:src="@drawable/item_music" />
+
+            <ImageButton
+                android:id="@+id/item_movie"
+                style="@style/ib_h65_w65_item"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/item_music"
+                android:layout_marginLeft="57dp"
+                android:layout_marginStart="57dp"
+                android:src="@drawable/item_movie" />
+
+            <ImageButton
+                android:id="@+id/item_essay"
+                style="@style/ib_h65_w65_item"
+                android:layout_alignLeft="@+id/item_movie"
+                android:layout_alignParentBottom="true"
+                android:layout_alignStart="@+id/item_movie"
+                android:layout_marginBottom="45dp"
+                android:src="@drawable/item_essay" />
+
+            <ImageButton
+                android:id="@+id/item_weibo"
+                style="@style/ib_h65_w65_item"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="45dp"
+                android:layout_marginRight="60dp"
+                android:src="@drawable/item_weibo" />
+
+        </RelativeLayout>
+
+
+
+
+    </LinearLayout>
+
+
+</layout>
+
