@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.hutcwp.gifts.R;
-import org.hutcwp.gifts.entity.User;
+import org.hutcwp.gifts.entity.bmob.User;
 import org.hutcwp.gifts.ui.MainActivity;
 
 import cn.bmob.v3.BmobUser;

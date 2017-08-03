@@ -1,4 +1,4 @@
-package org.hutcwp.gifts.entity;
+package org.hutcwp.gifts.entity.bmob;
 
 import cn.bmob.v3.BmobUser;
 

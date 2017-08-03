@@ -8,7 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.hutcwp.gifts.R;
-import org.hutcwp.gifts.entity.Dynamic;
+import org.hutcwp.gifts.entity.bmob.Dynamic;
+import org.hutcwp.gifts.entity.bmob.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
  * GitHub : github.com/hutcwp
  */
 
-public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.DynimacViewHolder> {
+public abstract class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.DynimacViewHolder> {
 
     private List<Dynamic> dynamicList = new ArrayList<>();
 
@@ -34,15 +35,30 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.DynimacV
         return new DynimacViewHolder(view);
     }
 
+    public List<Dynamic> getDynamicList() {
+        return dynamicList;
+    }
+
     @Override
-    public void onBindViewHolder(DynimacViewHolder holder, int position) {
+    public void onBindViewHolder(DynimacViewHolder holder, final int position) {
 
         Dynamic dynamic = dynamicList.get(position);
-        holder.tvUserName.setText(dynamic.getPublisher());
+        User user = dynamic.getPublisher();
+        holder.tvUserName.setText(user.getUsername());
         holder.tvPublishTime.setText(dynamic.getPublishTime());
-        holder.tvCommets.setText(dynamic.getComments());
+        holder.tvCommets.setText(dynamic.getCommentCount()+"");
         holder.tvContent.setText(dynamic.getContent());
+
+        holder.ivComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                comment(position);
+            }
+        });
     }
+
+    public abstract void comment(int position);
 
     @Override
     public int getItemCount() {

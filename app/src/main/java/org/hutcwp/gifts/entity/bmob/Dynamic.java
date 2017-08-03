@@ -1,4 +1,4 @@
-package org.hutcwp.gifts.entity;
+package org.hutcwp.gifts.entity.bmob;
 
 import cn.bmob.v3.BmobObject;
 
@@ -17,19 +17,26 @@ public class Dynamic extends BmobObject {
      * content 发布的内容
      * imgs 发布的图表
      * comments 评论
-     *
      */
-    private String publisher;
+    private User publisher;
     private String publishTime;
     private String content;
     private String imgs;
-    private String comments;
+    private Integer commentCount;
 
-    public String getPublisher() {
+    public Integer getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(Integer commentCount) {
+        this.commentCount = commentCount;
+    }
+
+    public User getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(String publisher) {
+    public void setPublisher(User publisher) {
         this.publisher = publisher;
     }
 
@@ -57,11 +64,5 @@ public class Dynamic extends BmobObject {
         this.imgs = imgs;
     }
 
-    public String getComments() {
-        return comments;
-    }
 
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
 }
