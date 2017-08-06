@@ -1,6 +1,9 @@
 package org.hutcwp.gifts.entity.bmob;
 
+import java.util.List;
+
 import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.datatype.BmobFile;
 
 /**
  * Created by hutcwp on 2017/7/30.
@@ -21,7 +24,7 @@ public class Dynamic extends BmobObject {
     private User publisher;
     private String publishTime;
     private String content;
-    private String imgs;
+    private List<BmobFile> imgs;
     private Integer commentCount;
 
     public Integer getCommentCount() {
@@ -56,13 +59,11 @@ public class Dynamic extends BmobObject {
         this.content = content;
     }
 
-    public String getImgs() {
+    public List<BmobFile> getImgs() {
         return imgs;
     }
 
-    public void setImgs(String imgs) {
+    public void setImgs(List<BmobFile> imgs) {
         this.imgs = imgs;
     }
-
-
 }

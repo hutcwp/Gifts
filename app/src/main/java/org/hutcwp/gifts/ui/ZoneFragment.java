@@ -3,8 +3,8 @@ package org.hutcwp.gifts.ui;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 
 import org.hutcwp.gifts.R;
@@ -16,6 +16,7 @@ import org.hutcwp.gifts.entity.bmob.User;
 import org.hutcwp.gifts.other.SpacesItemDecoration;
 import org.hutcwp.gifts.ui.base.BaseFragment;
 import org.hutcwp.gifts.ui.publish.PublishActivity;
+import org.hutcwp.gifts.view.SmartScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ public class ZoneFragment extends BaseFragment {
 
     int curPage = 0;
 
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_zone;
@@ -60,7 +62,7 @@ public class ZoneFragment extends BaseFragment {
             public void onClick(View v) {
 
                 startActivity(new Intent(getActivity(), PublishActivity.class));
-//                publishDynamic();
+
             }
         });
 
@@ -73,20 +75,28 @@ public class ZoneFragment extends BaseFragment {
             }
         });
 
-        binding.rvDynamic.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        binding.swipeRefreshLayout.setProgressViewOffset(true, 0,
+                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics()));
+
+
+        //解决recyclerView的滑动不连贯的问题
+        binding.rvDynamic.setNestedScrollingEnabled(false);
+
+        binding.scrollView.requestDisallowInterceptTouchEvent(true);
+
+        binding.scrollView.setScanScrollChangedListener(new SmartScrollView.ISmartScrollChangedListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (!binding.rvDynamic.canScrollVertically(1)) {
-                    loadMoreDynamic();
-                }
+            public void onScrolledToBottom() {
+
+                loadMoreDynamic();
             }
 
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
+            public void onScrolledToTop() {
+//                toast("滑动到顶了");
             }
         });
+
     }
 
     @Override
@@ -100,33 +110,10 @@ public class ZoneFragment extends BaseFragment {
         };
         binding.rvDynamic.setAdapter(adapter);
         binding.rvDynamic.addItemDecoration(new SpacesItemDecoration(getContext(), SpacesItemDecoration.VERTICAL_LIST));
-//        getDynamic();
+
+        getDynamic();
     }
 
-    /**
-     * 发布动态
-     */
-    private void publishDynamic() {
-
-        Dynamic dynamic = new Dynamic();
-        User user = BmobUser.getCurrentUser(User.class);
-        dynamic.setPublisher(user);
-        dynamic.setPublishTime("13:45");
-        dynamic.setContent("content");
-        dynamic.setImgs("null");
-        dynamic.setCommentCount(0);
-
-        dynamic.save(new SaveListener<String>() {
-            @Override
-            public void done(String objectId, BmobException e) {
-                if (e == null) {
-                    toast("添加Dynamic成功，返回objectId为：" + objectId);
-                } else {
-                    toast("创建Dynamic失败：" + e.getMessage());
-                }
-            }
-        });
-    }
 
     /**
      * 发表评论

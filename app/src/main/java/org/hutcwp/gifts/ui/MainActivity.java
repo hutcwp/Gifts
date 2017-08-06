@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,8 +13,9 @@ import android.widget.Toast;
 import org.hutcwp.gifts.R;
 import org.hutcwp.gifts.app.AppGlobal;
 import org.hutcwp.gifts.databinding.ActivityMainBinding;
+import org.hutcwp.gifts.ui.base.BaseActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
 
     ActivityMainBinding binding;

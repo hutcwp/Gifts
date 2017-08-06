@@ -1,13 +1,90 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="org.hutcwp.gifts.ui.UserFragment">
+<layout>
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:background="@color/colorAccent"
+            android:orientation="vertical"
+            android:paddingStart="8dp"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp">
+
+            <org.hutcwp.gifts.view.TopTitle
+                android:id="@+id/ly_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </org.hutcwp.gifts.view.TopTitle>
+
+            <RelativeLayout
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_user_photo"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/tab_user"
+                    app:civ_border_color="#715171"
+                    app:civ_border_width="1dp" />
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_toEndOf="@id/iv_user_photo"
+                    android:layout_toRightOf="@id/iv_user_photo"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:text="蔡文鹏"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:text="我独自走过你身旁"
+                        android:textColor="#8e8e8e" />
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:background="#fff"
+            android:padding="10dp">
+
+            <include
+                android:id="@+id/ly_tag"
+                layout="@layout/content_tag" />
+
+        </ScrollView>
+
+
+    </LinearLayout>
+
+
+</layout>
+

@@ -19,4 +19,5 @@ public class App extends Application {
         //第一：默认初始化
         Bmob.initialize(this, "a0330e29eb7f77c7ff07ec10b1e0c707");
     }
+
 }

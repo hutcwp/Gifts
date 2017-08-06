@@ -12,12 +12,15 @@
         android:orientation="vertical"
         tools:context="org.hutcwp.gifts.ui.MainActivity">
 
+        <include
+            android:id="@+id/ly_title"
+            layout="@layout/ly_title_common" />
 
         <LinearLayout
             android:id="@+id/ly_banner"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="#836482"
+            android:layout_height="220dp"
+            android:background="@color/colorAccent"
             android:orientation="vertical">
 
             <ImageSwitcher
@@ -74,8 +77,6 @@
                 android:src="@drawable/item_weibo" />
 
         </RelativeLayout>
-
-
 
 
     </LinearLayout>

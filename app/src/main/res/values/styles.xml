@@ -3,13 +3,31 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/greenery</item>
+        <item name="colorPrimaryDark">@color/greenery</item>
+        <item name="colorAccent">@color/greenery</item>
 
         <!--设置RccyclerView的分割线-->
         <item name="android:listDivider">@drawable/divider</item>
+
     </style>
+
+    <!-- Base application theme. -->
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/greenery</item>
+        <item name="colorPrimaryDark">@color/greenery</item>
+        <item name="colorAccent">@color/greenery</item>
+
+        <!--设置启动的logo图片-->
+        <item name="android:windowBackground">@drawable/splash</item>
+        <!--设置RccyclerView的分割线-->
+        <item name="android:listDivider">@drawable/divider</item>
+
+    </style>
+
+
+
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
@@ -27,10 +45,9 @@
     <style name="ib_h28_w28_transfer">
         <item name="android:layout_width">24dp</item>
         <item name="android:layout_height">24dp</item>
-        <item name="android:padding">14dp</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:layout_centerVertical">true</item>
-        <item name="android:layout_margin">8dp</item>
+
     </style>
 
 

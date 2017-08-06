@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tag="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <org.hutcwp.gifts.view.TagLayout
+            android:id="@+id/tag_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tag:tag_img="@drawable/item_weibo"
+            tag:tag_title="打电话" />
+
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#8e8e8e" />
+
+        <org.hutcwp.gifts.view.TagLayout
+            android:id="@+id/tag_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tag:tag_img="@drawable/icon_comment"
+            tag:tag_title="聊一聊" />
+
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#8e8e8e" />
+
+        <org.hutcwp.gifts.view.TagLayout
+            android:id="@+id/tag_three"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#8e8e8e" />
+
+        <org.hutcwp.gifts.view.TagLayout
+            android:id="@+id/tag_four"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#8e8e8e" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#8e8e8e" />
+
+
+    </LinearLayout>
+
+
+</layout>

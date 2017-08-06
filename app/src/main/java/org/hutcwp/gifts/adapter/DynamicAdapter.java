@@ -1,6 +1,10 @@
 package org.hutcwp.gifts.adapter;
 
+import android.content.Context;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +14,7 @@ import android.widget.TextView;
 import org.hutcwp.gifts.R;
 import org.hutcwp.gifts.entity.bmob.Dynamic;
 import org.hutcwp.gifts.entity.bmob.User;
+import org.hutcwp.gifts.other.SpacesItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,18 +26,21 @@ import java.util.List;
  * GitHub : github.com/hutcwp
  */
 
-public abstract class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.DynimacViewHolder> {
+public abstract class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.DynamicViewHolder> {
 
     private List<Dynamic> dynamicList = new ArrayList<>();
+
+    private Context mContext;
 
     public DynamicAdapter(List<Dynamic> dynamicList) {
         this.dynamicList = dynamicList;
     }
 
     @Override
-    public DynimacViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DynamicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        mContext = parent.getContext();
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_item_dynamic, parent, false);
-        return new DynimacViewHolder(view);
+        return new DynamicViewHolder(view);
     }
 
     public List<Dynamic> getDynamicList() {
@@ -40,14 +48,23 @@ public abstract class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter
     }
 
     @Override
-    public void onBindViewHolder(DynimacViewHolder holder, final int position) {
+    public void onBindViewHolder(DynamicViewHolder holder, final int position) {
 
         Dynamic dynamic = dynamicList.get(position);
         User user = dynamic.getPublisher();
-        holder.tvUserName.setText(user.getUsername());
+        Log.d("test", "name :" + user.getUsername());
+        Log.d("test", "nick :" + user.getNick());
+        Log.d("test", "Id :" + user.getObjectId());
+
+        holder.tvUserName.setText(user.getNick());
         holder.tvPublishTime.setText(dynamic.getPublishTime());
-        holder.tvCommets.setText(dynamic.getCommentCount()+"");
+        holder.tvCommets.setText(dynamic.getCommentCount() + "条评论");
         holder.tvContent.setText(dynamic.getContent());
+
+        holder.rvImgs.setAdapter(new ImageAdapter(dynamic.getImgs()));
+        holder.rvImgs.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        holder.rvImgs.addItemDecoration(new SpacesItemDecoration(mContext, SpacesItemDecoration.VERTICAL_LIST));
+        holder.rvImgs.setItemAnimator(new DefaultItemAnimator());
 
         holder.ivComment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +104,7 @@ public abstract class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter
     }
 
 
-    class DynimacViewHolder extends RecyclerView.ViewHolder {
+    class DynamicViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivUserPhoto;
         ImageView ivFavour;
@@ -97,7 +114,9 @@ public abstract class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter
         TextView tvCommets;
         TextView tvContent;
 
-        public DynimacViewHolder(View itemView) {
+        RecyclerView rvImgs;
+
+        public DynamicViewHolder(View itemView) {
             super(itemView);
 
             ivUserPhoto = (ImageView) itemView.findViewById(R.id.iv_user_photo);
@@ -107,6 +126,9 @@ public abstract class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter
             tvPublishTime = (TextView) itemView.findViewById(R.id.tv_publish_time);
             tvCommets = (TextView) itemView.findViewById(R.id.tv_comments);
             tvContent = (TextView) itemView.findViewById(R.id.tv_content);
+
+            rvImgs = (RecyclerView) itemView.findViewById(R.id.rv_imgs);
+
         }
 
 

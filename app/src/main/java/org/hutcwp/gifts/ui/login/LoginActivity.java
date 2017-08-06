@@ -27,10 +27,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("登录界面");
+        toolbar.setTitle("验证口令");
 
         etUserName = (EditText) findViewById(R.id.et_password);
 
@@ -41,6 +40,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        if (BmobUser.getCurrentUser() == null) {
+            login();
+        } else {
+            startMainActivity();
+        }
+        LoginActivity.this.finish();
+
     }
 
 
@@ -49,7 +55,8 @@ public class LoginActivity extends AppCompatActivity {
      */
     public void register() {
         User bu = new User();
-        bu.setUsername("cwp");
+        bu.setUsername("hutcwp");
+        bu.setNick("蔡文鹏");
         bu.setPassword("123456");
         //注意：不能用save方法进行注册
         bu.signUp(new SaveListener<User>() {
@@ -70,7 +77,8 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void login() {
 
-        String userName = etUserName.getText().toString().trim();
+//        String userName = etUserName.getText().toString().trim();
+        String userName = "hutcwp";
 
         BmobUser.loginByAccount(userName, "123456", new LogInListener<User>() {
 
@@ -78,13 +86,17 @@ public class LoginActivity extends AppCompatActivity {
             public void done(User user, BmobException e) {
                 if (user != null) {
                     Log.i("test", "用户登陆成功");
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    LoginActivity.this.finish();
+                    startMainActivity();
                 } else {
                     toast("登录失败:原因->" + e.getMessage());
                 }
             }
         });
+    }
+
+    private void startMainActivity() {
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        LoginActivity.this.finish();
     }
 
     //弹出toast
