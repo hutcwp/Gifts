@@ -5,7 +5,8 @@
 
     <ImageView
         android:id="@+id/iv_img"
-        android:layout_width="200dp"
-        android:layout_height="200dp" />
+        android:src="@drawable/default_img"
+        android:layout_width="120dp"
+        android:layout_height="120dp" />
 
 </LinearLayout>

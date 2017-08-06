@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,12 +13,14 @@ import org.hutcwp.gifts.R;
 import org.hutcwp.gifts.app.AppGlobal;
 import org.hutcwp.gifts.databinding.ActivityMainBinding;
 import org.hutcwp.gifts.ui.base.BaseActivity;
+import org.hutcwp.gifts.view.BottomTiltle;
 
 public class MainActivity extends BaseActivity {
 
 
     ActivityMainBinding binding;
 
+    String TAG = "tag";
 
     private String currentFragmentTag;
 
@@ -33,9 +34,9 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
 
         binding.lyTopTitle.setBtnLeftOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,31 +67,22 @@ public class MainActivity extends BaseActivity {
      */
     private void setPageChange() {
 
-
-        binding.lyBottom.lyZone.setOnTouchListener(new View.OnTouchListener() {
+        BottomTiltle bottomTiltle = (BottomTiltle) findViewById(R.id.ly_bottom);
+        bottomTiltle.setItemClickListener(new BottomTiltle.OnItemClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void leftItemClick() {
                 switchContent(FRAGMENT_TAG_ZONE);
-                Log.d("test","zone");
-                return true;
             }
-        });
 
-        binding.lyBottom.lyHome.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switchContent(FRAGMENT_TAG_HOME);
-                Log.d("test","tab_home");
-
-                return true;
-            }
-        });
-        binding.lyBottom.lyUser.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void rightItemClick() {
                 switchContent(FRAGMENT_TAG_USER);
-                Log.d("test","user");
-                return true;
+            }
+
+            @Override
+            public void middleItemClick() {
+                switchContent(FRAGMENT_TAG_HOME);
+
             }
         });
 
@@ -99,6 +91,7 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 初始化Fragment
+     *
      * @param savedInstanceState
      */
     private void initFragment(Bundle savedInstanceState) {
@@ -112,6 +105,7 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 重写的方法
+     *
      * @param outState
      */
     @Override

@@ -57,6 +57,11 @@ public class ZoneFragment extends BaseFragment {
     @Override
     protected void initSetting() {
 
+
+        binding.topTitle.setRightBtnVisibility(View.INVISIBLE);
+        binding.topTitle.setLeftBtnVisibility(View.INVISIBLE);
+        binding.topTitle.setTitle("动态列表");
+
         binding.ivPublish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

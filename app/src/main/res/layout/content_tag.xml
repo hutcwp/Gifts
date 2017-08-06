@@ -16,7 +16,7 @@
             android:id="@+id/tag_one"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tag:tag_img="@drawable/item_weibo"
+            tag:tag_img="@drawable/icon_user_tel"
             tag:tag_title="打电话" />
 
         <View
@@ -29,8 +29,8 @@
             android:id="@+id/tag_two"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tag:tag_img="@drawable/icon_comment"
-            tag:tag_title="聊一聊" />
+            tag:tag_img="@drawable/ic_user_chat"
+            tag:tag_title="聊QQ" />
 
         <View
 
@@ -40,6 +40,8 @@
 
         <org.hutcwp.gifts.view.TagLayout
             android:id="@+id/tag_three"
+            tag:tag_img="@drawable/ic_user_img"
+            tag:tag_title="看相册"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

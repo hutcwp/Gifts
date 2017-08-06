@@ -182,12 +182,11 @@ public class PublishActivity extends AppCompatActivity {
 
             imageView.setLayoutParams(params);
 
-            imageView.setImageResource(R.drawable.logo);
-
             //使用params,width 和params.heght 去加载图片
             Glide.with(PublishActivity.this)
-                    .load(imgPath)
+                    .load(data.getData())
                     .override(240, 240)
+                    .placeholder(R.drawable.app_logo)
                     .centerCrop()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imageView);//加载网络图片

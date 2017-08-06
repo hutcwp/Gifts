@@ -47,7 +47,7 @@ public class UserFragment extends BaseFragment {
         });
 
         //隐藏左边
-        binding.lyTitle.setBtnLeftVisibility(View.INVISIBLE);
+        binding.lyTitle.setLeftBtnVisibility(View.INVISIBLE);
         binding.lyTitle.setTitle("个人中心");
 
     }

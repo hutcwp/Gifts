@@ -58,6 +58,7 @@ public class HomeFragment extends BaseFragment {
         binding = (FragmentHomeBinding) getBinding();
 
         mContetxt = getContext();
+
     }
 
     /**
@@ -65,6 +66,10 @@ public class HomeFragment extends BaseFragment {
      */
     @Override
     protected void initSetting() {
+
+        binding.topTitle.setLeftBtnVisibility(View.INVISIBLE);
+        binding.topTitle.setRightBtnVisibility(View.INVISIBLE);
+        binding.topTitle.setTitle("推荐主页");
 
         binding.imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
             @Override

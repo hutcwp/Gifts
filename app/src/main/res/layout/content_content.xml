@@ -37,7 +37,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_margin="8dp"
-                android:src="@android:drawable/ic_menu_add" />
+                android:src="@drawable/bg_add_photo" />
         </LinearLayout>
 
         <View

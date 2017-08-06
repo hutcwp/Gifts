@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,10 +21,10 @@ import org.hutcwp.gifts.R;
 public class TopTitle extends LinearLayout {
 
 
-    ImageButton btnLeft;
-    ImageButton btnRight;
+    private ImageView btnLeft;
+    private ImageView btnRight;
 
-    TextView tvTitle;
+    private TextView tvTitle;
 
     public TopTitle(Context context) {
         super(context);
@@ -43,8 +43,8 @@ public class TopTitle extends LinearLayout {
         //加载布局
         View view = LayoutInflater.from(context).inflate(R.layout.ly_title_common, this, true);
 
-        btnLeft = (ImageButton) view.findViewById(R.id.btn_left);
-        btnRight = (ImageButton) view.findViewById(R.id.btn_right);
+        btnLeft = (ImageView) view.findViewById(R.id.btn_left);
+        btnRight = (ImageView) view.findViewById(R.id.btn_right);
         tvTitle = (TextView) view.findViewById(R.id.tv_title);
 
     }
@@ -85,11 +85,11 @@ public class TopTitle extends LinearLayout {
         }
     }
 
-    public void setBtnLeftVisibility(int state) {
+    public void setLeftBtnVisibility(int state) {
         setVisiable(btnLeft, state);
     }
 
-    public void setBtnRightVisibility(int state) {
+    public void setRightBtnVisibility(int state) {
         setVisiable(btnRight, state);
     }
 

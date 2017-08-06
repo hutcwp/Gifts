@@ -8,27 +8,29 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_title_height"
-        android:padding="4dp">
-
+        android:layout_height="@dimen/bottom_title_height">
 
         <LinearLayout
             android:id="@+id/ly_zone"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_centerInParent="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_marginLeft="20dp"
             android:orientation="vertical">
 
-            <ImageButton
-                style="@style/ib_h35_w35_transfer"
-                android:layout_alignParentLeft="true"
-                android:clickable="false"
-                android:src="@drawable/zone_selected" />
+            <org.hutcwp.gifts.view.QQMenu
+                android:id="@+id/qqmenu_left"
+                android:layout_width="45dp"
+                android:layout_height="35dp"
+                android:layout_centerInParent="true" />
 
             <TextView
                 style="@style/tv_bottom_title"
                 android:text="动态" />
+
+
 
         </LinearLayout>
 
@@ -40,11 +42,11 @@
             android:layout_centerInParent="true"
             android:orientation="vertical">
 
-            <ImageButton
-                style="@style/ib_h35_w35_transfer"
-                android:clickable="false"
-                android:padding="2dp"
-                android:src="@drawable/tab_home" />
+            <org.hutcwp.gifts.view.QQMenu
+                android:id="@+id/qqmenu_middle"
+                android:layout_width="45dp"
+                android:layout_height="35dp"
+                android:layout_centerInParent="true" />
 
             <TextView
                 style="@style/tv_bottom_title"
@@ -54,6 +56,7 @@
 
 
         <LinearLayout
+            android:layout_marginRight="20dp"
             android:id="@+id/ly_user"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -61,17 +64,20 @@
             android:layout_alignParentRight="true"
             android:orientation="vertical">
 
-            <ImageButton
-                style="@style/ib_h35_w35_transfer"
-                android:layout_gravity="center_horizontal"
-                android:clickable="false"
-                android:src="@drawable/tab_user" />
+
+            <org.hutcwp.gifts.view.QQMenu
+                android:id="@+id/qqmenu_right"
+                android:layout_width="45dp"
+                android:layout_height="35dp"
+                android:layout_centerInParent="true" />
 
             <TextView
                 style="@style/tv_bottom_title"
                 android:text="个人中心" />
 
         </LinearLayout>
+
+
     </RelativeLayout>
 
 

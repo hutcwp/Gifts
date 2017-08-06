@@ -44,7 +44,7 @@ public class TagLayout extends RelativeLayout {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.TagLayout);
         if (typedArray != null) {
             title = typedArray.getString(R.styleable.TagLayout_tag_title);
-            img = typedArray.getResourceId(R.styleable.TagLayout_tag_img, R.drawable.logo);
+            img = typedArray.getResourceId(R.styleable.TagLayout_tag_img, R.drawable.app_logo);
             typedArray.recycle();
         }
         if (img != 0) {

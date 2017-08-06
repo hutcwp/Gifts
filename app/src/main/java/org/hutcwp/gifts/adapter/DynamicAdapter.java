@@ -14,7 +14,6 @@ import android.widget.TextView;
 import org.hutcwp.gifts.R;
 import org.hutcwp.gifts.entity.bmob.Dynamic;
 import org.hutcwp.gifts.entity.bmob.User;
-import org.hutcwp.gifts.other.SpacesItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +62,6 @@ public abstract class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter
 
         holder.rvImgs.setAdapter(new ImageAdapter(dynamic.getImgs()));
         holder.rvImgs.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        holder.rvImgs.addItemDecoration(new SpacesItemDecoration(mContext, SpacesItemDecoration.VERTICAL_LIST));
         holder.rvImgs.setItemAnimator(new DefaultItemAnimator());
 
         holder.ivComment.setOnClickListener(new View.OnClickListener() {

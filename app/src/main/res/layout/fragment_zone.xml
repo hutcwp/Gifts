@@ -7,6 +7,7 @@
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
+        android:background="@color/colorAccent"
         android:layout_height="match_parent">
 
         <android.support.v4.widget.SwipeRefreshLayout
@@ -25,7 +26,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorAccent"
+
                     android:orientation="vertical">
 
                     <FrameLayout
@@ -33,20 +34,59 @@
                         android:layout_height="280dp"
                         android:layout_marginTop="35dp">
 
-
-                        <ImageView
-                            android:id="@+id/iv_publish"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_alignParentRight="true"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="bottom|right"
-                            android:src="@drawable/item_music" />
+                            android:orientation="vertical">
+
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1px"
+                                android:background="#fff" />
+
+                            <RelativeLayout
+                                android:id="@+id/ly_tool"
+
+                                android:background="#6aa13f"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:text="我才不会告诉你这里是通知栏"
+                                    android:layout_width="wrap_content"
+                                    android:layout_marginLeft="@dimen/margin_10"
+                                    android:layout_centerVertical="true"
+                                    android:textColor="#fff"
+                                    android:textSize="16sp"
+                                    android:layout_height="wrap_content" />
+
+                                <ImageView
+                                    android:id="@+id/iv_publish"
+                                    android:padding="4dp"
+                                    android:layout_marginRight="@dimen/margin_10"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/rpe" />
+
+
+                            </RelativeLayout>
+
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1px"
+                                android:background="#fff" />
+                        </LinearLayout>
+
 
                         <ImageView
                             android:id="@+id/imageView"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
-                            android:src="@drawable/logo" />
+                            android:src="@drawable/app_logo" />
 
                     </FrameLayout>
 
@@ -55,6 +95,8 @@
                         android:id="@+id/rv_dynamic"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="30dp"
                         android:background="#fff"
                         android:scrollbars="none"
                         app:layoutManager="LinearLayoutManager">
@@ -69,7 +111,12 @@
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
-        <include layout="@layout/ly_title_common" />
+        <org.hutcwp.gifts.view.TopTitle
+            android:id="@+id/top_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </org.hutcwp.gifts.view.TopTitle>
 
 
     </FrameLayout>

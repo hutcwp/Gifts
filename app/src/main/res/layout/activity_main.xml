@@ -15,29 +15,32 @@
 
         <org.hutcwp.gifts.view.TopTitle
             android:id="@+id/ly_top_title"
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
         </org.hutcwp.gifts.view.TopTitle>
 
-       <FrameLayout
-           android:id="@+id/content"
-           android:layout_width="match_parent"
-           android:layout_height="0dp"
-           android:layout_weight="1"
-           >
+        <FrameLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-       </FrameLayout>
+        </FrameLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1sp"
-            android:background="#848484"
+            android:background="#848484" />
+
+        <org.hutcwp.gifts.view.BottomTiltle
+            android:id="@+id/ly_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
             />
 
-        <include layout="@layout/ly_bottom_navi"
-            android:id="@+id/ly_bottom"/>
 
     </LinearLayout>
 

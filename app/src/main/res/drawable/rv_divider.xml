@@ -2,7 +2,7 @@
 <!--RecyclerView 的分割线-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="#ab9f9f"/>
+    <solid android:color="@color/colorAccent"/>
     <size android:height="6dp"/>
 </shape>
 
