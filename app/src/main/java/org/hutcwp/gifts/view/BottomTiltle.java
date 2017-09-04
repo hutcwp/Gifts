@@ -83,7 +83,7 @@ public class BottomTiltle extends LinearLayout {
 
 
         //默认选择中间
-        left.setHasClick(true);
+        middle.setHasClick(true);
 
     }
 

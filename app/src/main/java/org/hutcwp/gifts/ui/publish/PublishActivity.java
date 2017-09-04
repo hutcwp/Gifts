@@ -21,6 +21,7 @@ import org.hutcwp.gifts.R;
 import org.hutcwp.gifts.databinding.ActivityPublishBinding;
 import org.hutcwp.gifts.entity.bmob.Dynamic;
 import org.hutcwp.gifts.entity.bmob.User;
+import org.hutcwp.gifts.utils.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -136,7 +137,7 @@ public class PublishActivity extends AppCompatActivity {
         Dynamic dynamic = new Dynamic();
         User user = BmobUser.getCurrentUser(User.class);
         dynamic.setPublisher(user);
-        dynamic.setPublishTime("13:45");
+        dynamic.setPublishTime(TimeUtil.getTime());
         dynamic.setContent(binding.lyContent.etContent.getText().toString().trim());
         dynamic.setCommentCount(0);
         //图片不为0

@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.Toast;
 
 import org.hutcwp.gifts.R;
 import org.hutcwp.gifts.adapter.DynamicAdapter;
@@ -25,6 +26,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
@@ -174,11 +176,27 @@ public class ZoneFragment extends BaseFragment {
                     public void done(List<Dynamic> results, BmobException e) {
                         binding.swipeRefreshLayout.setRefreshing(false);
                         if (e == null) {
-                            for (Dynamic dynamic : results) {
+                            //清除原来的数据
+                            adapter.clearData();
+                            for (final Dynamic dynamic : results) {
                                 Log.d("test", "dy:" + dynamic.getPublisher());
-
+                                BmobQuery<User> userBmobQuery = new BmobQuery<>();
+                                userBmobQuery.getObject(dynamic.getPublisher().getObjectId(), new QueryListener<User>() {
+                                    @Override
+                                    public void done(User user, BmobException e) {
+                                        Log.d("test","done");
+                                        if (e == null) {
+                                            dynamic.setPublisher(user);
+                                            adapter.addData(dynamic);
+                                            Log.d("test","添加成功！");
+                                        } else {
+                                            Log.d("test", "失败：" + e.getMessage() + "," + e.getErrorCode());
+                                            Toast.makeText(getContext(), "查询失败！", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
                             }
-                            adapter.setNewData(results);
+
                         } else {
                             // ...
                             toast("查询失败" + e.getMessage());
@@ -221,13 +239,28 @@ public class ZoneFragment extends BaseFragment {
         query.setLimit(4).setSkip(adapter.getItemCount()).order("-createdAt")
                 .findObjects(new FindListener<Dynamic>() {
                     @Override
-                    public void done(List<Dynamic> results, BmobException e) {
+                    public void done(final List<Dynamic> results, BmobException e) {
                         binding.swipeRefreshLayout.setRefreshing(false);
                         if (e == null) {
-                            for (Dynamic dynamic : results) {
+                            for (final Dynamic dynamic : results) {
                                 Log.d("test", "dy:" + dynamic.getPublisher());
+                                BmobQuery<User> userBmobQuery = new BmobQuery<>();
+                                userBmobQuery.getObject(dynamic.getPublisher().getObjectId(), new QueryListener<User>() {
+                                    @Override
+                                    public void done(User user, BmobException e) {
+                                        Log.d("test","done");
+                                        if (e == null) {
+                                            dynamic.setPublisher(user);
+                                            adapter.addData(dynamic);
+                                            Log.d("test","添加成功！");
+                                        } else {
+                                            Log.d("test", "失败：" + e.getMessage() + "," + e.getErrorCode());
+                                            Toast.makeText(getContext(), "查询失败！", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                });
                             }
-                            adapter.addDatas(results);
                         } else {
                             // ...
                             toast("查询失败" + e.getMessage());

@@ -92,6 +92,25 @@ public abstract class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter
     }
 
     /**
+     * 清除原来的数据
+     */
+    public void clearData(){
+        dynamicList = new ArrayList<>();
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 添加数据
+     *
+     * @param newData 新增的数据
+     */
+    public void addData(Dynamic newData) {
+
+        dynamicList.add(newData);
+        notifyItemChanged(getItemCount());
+    }
+
+    /**
      * 设置新内容
      *
      * @param newData 新内容
