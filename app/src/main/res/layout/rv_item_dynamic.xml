@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -14,14 +13,14 @@
         android:orientation="vertical">
 
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/iv_user_photo"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:src="@drawable/default_user"
-            app:civ_border_color="#715171"
-            app:civ_border_width="1dp" />
+            android:background="@drawable/back_circle_btn"
+           />
 
         <TextView
             android:id="@+id/tv_username"
@@ -112,6 +111,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:padding="10dp"
+            android:visibility="gone"
             android:src="@drawable/ic_user_chat" />
 
     </RelativeLayout>
@@ -134,8 +134,8 @@
             android:id="@+id/tv_comments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="尤特纳:不错的一个白雪公主杀死美人鱼的故事，
-            发誓全不会为了苹果而远走他乡" />
+            android:gravity="center_horizontal"
+            android:text="越努力越幸运" />
 
     </LinearLayout>
 

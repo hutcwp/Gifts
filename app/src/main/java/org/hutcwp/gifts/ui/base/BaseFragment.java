@@ -101,7 +101,8 @@ public abstract class BaseFragment extends Fragment {
 
     //弹出toast
     public void toast(String msg) {
-        Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
+
 
 }

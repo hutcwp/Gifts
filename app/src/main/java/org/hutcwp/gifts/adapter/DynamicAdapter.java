@@ -14,6 +14,7 @@ import android.widget.TextView;
 import org.hutcwp.gifts.R;
 import org.hutcwp.gifts.entity.bmob.Dynamic;
 import org.hutcwp.gifts.entity.bmob.User;
+import org.hutcwp.gifts.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,8 @@ public abstract class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter
     private List<Dynamic> dynamicList = new ArrayList<>();
 
     private Context mContext;
+
+    String TAG = "DynamicAdapter";
 
     public DynamicAdapter(List<Dynamic> dynamicList) {
         this.dynamicList = dynamicList;
@@ -51,15 +54,19 @@ public abstract class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter
 
         Dynamic dynamic = dynamicList.get(position);
         User user = dynamic.getPublisher();
-        Log.d("test", "name :" + user.getUsername());
-        Log.d("test", "nick :" + user.getNick());
-        Log.d("test", "Id :" + user.getObjectId());
+        Log.d(TAG, "name :" + user.getUsername());
+        Log.d(TAG, "nick :" + user.getNick());
+        Log.d(TAG, "Id :" + user.getObjectId());
 
-        holder.tvUserName.setText(user.getNick());
+        holder.tvUserName.setText("女神");
         holder.tvPublishTime.setText(dynamic.getPublishTime());
-        holder.tvCommets.setText(dynamic.getCommentCount() + "条评论");
+//        holder.tvCommets.setText(dynamic.getCommentCount() + "条评论");
         holder.tvContent.setText(dynamic.getContent());
 
+        //获取头像
+        Utils.getUserImgWithGlide(mContext, holder.ivUserPhoto);
+
+        //设置动态中发的图片
         holder.rvImgs.setAdapter(new ImageAdapter(dynamic.getImgs()));
         holder.rvImgs.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         holder.rvImgs.setItemAnimator(new DefaultItemAnimator());

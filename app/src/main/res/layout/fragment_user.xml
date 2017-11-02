@@ -31,13 +31,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <de.hdodenhof.circleimageview.CircleImageView
+
+                <ImageView
                     android:id="@+id/iv_user_photo"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:src="@drawable/default_user"
-                    app:civ_border_color="#715171"
-                    app:civ_border_width="1dp" />
+                    android:background="@drawable/back_circle_btn"
+                   />
 
 
                 <RelativeLayout
@@ -52,15 +53,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:text="蔡文鹏"
+                        android:text="女神"
+                        android:textColor="#000"
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/tv_signature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:text="我独自走过你身旁"
-                        android:textColor="#8e8e8e" />
+                        android:textColor="#1b1616" />
 
                 </RelativeLayout>
             </RelativeLayout>

@@ -23,6 +23,13 @@
     <color name="kale">#4E673F</color>
     <color name="pink_yarrow">#C72B6C</color>
     <color name="niagara">#4C829E</color>
+
+    <color name="movie" >#1f1f1f</color>
+    <color name="essay" >#7DA743</color>
+    <color name="music" >#d33c33</color>
+    <color name="blog" >#2f9ef0</color>
+
+
     <array name="colors">
         <item>@color/lapis_blue</item>
         <item>@color/pale_dogwood</item>

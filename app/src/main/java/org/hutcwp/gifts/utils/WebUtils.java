@@ -24,18 +24,22 @@ public class WebUtils {
      * @param context
      * @param url
      */
-    public static void openInternal(Context context, String url) {
+    public static void openInternal(Context context, String url,int color) {
         new FinestWebView.Builder(context)
                 .stringResCopiedToClipboard(R.string.copied_to_clipboard)
                 .stringResRefresh(R.string.menu_action_refresh)
                 .stringResShareVia(R.string.menu_action_share)
                 .stringResCopyLink(R.string.menu_action_copy)
                 .stringResOpenWith(R.string.menu_action_openwith)
-                .titleColor(ContextCompat.getColor(context,R.color.colorPrimary))
-                .toolbarColor(ContextCompat.getColor(context,R.color.colorAccent))
-                .statusBarColor(ContextCompat.getColor(context,R.color.colorPrimaryDark))
-                .swipeRefreshColor(ContextCompat.getColor(context,R.color.colorPrimary))
-                .showUrl(false)
+                .titleDefault("电影推荐")
+                .titleSize(24)
+                .titleColor(color)
+                .toolbarColor(color)
+                .statusBarColor(color)
+                .swipeRefreshColor(color)
+                .showUrl(true)
+                .urlColor(ContextCompat.getColor(context,R.color.white))
+                .urlSize(24)
                 .webViewDisplayZoomControls(true)
                 .webViewSupportZoom(true)
                 .webViewBuiltInZoomControls(true)
@@ -72,6 +76,6 @@ public class WebUtils {
                 .swipeRefreshColor(ContextCompat.getColor(context,R.color.colorPrimary))
                 .showUrl(false)
                 .iconDefaultColor(context.getResources().getColor(R.color.Color_White))
-                .load(html, "text/html; charset=UTF-8", null);//妈卖批，加载中文乱码
+                .load(html, "text/html; charset=UTF-8", null);//加载中文乱码
     }
 }
