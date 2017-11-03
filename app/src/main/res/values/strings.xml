@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Gifts</string>
+    <string name="app_name"></string>
     <string name="title_activity_content">发布动态</string>
 
     <string name="menu_action_refresh">刷新</string>

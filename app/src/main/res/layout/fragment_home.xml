@@ -19,7 +19,7 @@
 
         </org.hutcwp.gifts.view.TopTitle>
 
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/ly_banner"
             android:layout_width="match_parent"
             android:layout_height="220dp"
@@ -32,7 +32,17 @@
                 android:layout_height="match_parent">
 
             </ImageSwitcher>
-        </LinearLayout>
+
+            <TextView
+                android:text="时间流年"
+                android:textColor="@color/white"
+                android:ems="1"
+                android:layout_margin="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </FrameLayout>
 
         <RelativeLayout
             android:id="@+id/ly_function"

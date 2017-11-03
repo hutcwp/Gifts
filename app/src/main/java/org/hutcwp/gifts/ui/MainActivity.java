@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import org.hutcwp.gifts.R;
 import org.hutcwp.gifts.app.AppGlobal;
 import org.hutcwp.gifts.databinding.ActivityMainBinding;
+import org.hutcwp.gifts.entity.bmob.Common;
 import org.hutcwp.gifts.ui.base.BaseActivity;
 import org.hutcwp.gifts.view.BottomTiltle;
 
@@ -32,12 +35,16 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.QueryListener;
+
 public class MainActivity extends BaseActivity {
 
 
     private ActivityMainBinding binding;
 
-    String TAG = "tag";
+    String TAG = "MainActivity";
 
     private String currentFragmentTag;
 
@@ -78,7 +85,9 @@ public class MainActivity extends BaseActivity {
 
         initFragment(savedInstanceState);
 
-        checkVersion();
+        //初始化一次动态属性
+        queryCommon();
+
     }
 
     /**
@@ -175,22 +184,21 @@ public class MainActivity extends BaseActivity {
 
 
     //检测本程序的版本，这里假设从服务器中获取到最新的版本号为3
-    public void checkVersion() {
+    public void checkVersion(float serverVersionCode) {
         //如果检测本程序的版本号小于服务器的版本号，那么提示用户更新
-//        if (getVersionCode() < 3) {
-//            showDialogUpdate();//弹出提示版本更新的对话框
-//
-//        }else{
-//            //否则吐司，说现在是最新的版本
-//            Toast.makeText(this,"当前已经是最新的版本",Toast.LENGTH_SHORT).show();
-//
-//        }
+        if (getVersionCode() < serverVersionCode) {
+            Log.d(TAG, "checkVersion: "+"client:"+getVersionCode() + "  "+"server:"+serverVersionCode);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            } else {
+                showDialogUpdate();//弹出提示版本更新的对话框
+            }
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        }else{
-            showDialogUpdate();
+        } else {
+            //否则吐司，说现在是最新的版本
+//            Toast.makeText(this,"当前已经是最新的版本",Toast.LENGTH_SHORT).show();
         }
+
     }
 
 
@@ -198,8 +206,8 @@ public class MainActivity extends BaseActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == 1) {
             showDialogUpdate();
-        }else{
-            Log.d("getFileFromServer","没有写入内存大的权限");
+        } else {
+            Log.d("getFileFromServer", "没有写入内存大的权限");
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -222,7 +230,7 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //Toast.makeText(MainActivity.this, "选择确定哦", 0).show();
-                        loadNewVersionProgress();//下载最新的版本程序
+                        loadNewVersionProgress(AppGlobal.NEW_VERSION_URL);//下载最新的版本程序
                     }
                 }).
 
@@ -241,8 +249,13 @@ public class MainActivity extends BaseActivity {
     /**
      * 下载新版本程序
      */
-    private void loadNewVersionProgress() {
-        final String uri = "http://www.imooc.com/mobile/mukewang.apk";
+    private void loadNewVersionProgress(final String url) {
+
+        if(url ==null || TextUtils.isEmpty(url)){
+            Toast.makeText(MainActivity.this,"新版本地址错误，请联系管理员",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         final ProgressDialog pd;    //进度条对话框
         pd = new ProgressDialog(this);
         pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -253,7 +266,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void run() {
                 try {
-                    File file = getFileFromServer(uri, pd);
+                    File file = getFileFromServer(url, pd);
                     sleep(5000);
                     installApk(file);
                     pd.dismiss(); //结束掉进度条对话框
@@ -324,5 +337,92 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+
+    /**
+     * 获取轮播图的图片地址
+     */
+    private void queryCommon() {
+
+        BmobQuery<Common> query = new BmobQuery<>();
+        query.getObject("62c7db275d", new QueryListener<Common>() {
+
+            @Override
+            public void done(Common object, BmobException e) {
+                if (e == null) {
+                    object.getObjectId();
+                    //获得createdAt数据创建时间（注意是：createdAt，不是createAt）
+                    object.getCreatedAt();
+
+                    String[] newImgs = object.getSpannerImg();
+                    String mQQ = object.getQQNumber();
+                    String phoneNumber = object.getPhoneNumber();
+                    String signature = object.getSignature();
+                    String dailyNotify = object.getDailyNotify();
+                    String newVersionUrl = object.getUpdateUrl();
+                    float versionCode = object.getVersionCode();
+
+                    if (!isNULL(newVersionUrl)){
+                        AppGlobal.NEW_VERSION_URL = newVersionUrl;
+                        if (!isNULL(versionCode)&&versionCode!=0) {
+                            checkVersion(versionCode);
+                        }
+                    }
+
+                    if (!isNULL(newImgs)) {
+                        AppGlobal.IMGS_SPANNER = newImgs;
+                    }
+                    if (!isNULL(mQQ)) {
+                        AppGlobal.QQMyself = mQQ;
+                    }
+                    if (!isNULL(phoneNumber)) {
+                        AppGlobal.PHONE_NUMBER = phoneNumber;
+                    }
+                    if (!isNULL(signature)) {
+                        AppGlobal.SIGNATURE = signature;
+                    }
+                    if (!isNULL(dailyNotify)) {
+                        AppGlobal.DailyNotify = dailyNotify;
+                    }
+
+                } else {
+                    Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());
+                }
+
+            }
+        });
+
+    }
+
+    //判空
+    private boolean isNULL(Object obj) {
+
+        if (obj == null) {
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * 2  * 获取版本号
+     * 3  * @return 当前应用的版本号
+     * 4
+     */
+    public float getVersionCode() {
+        // 获取packagemanager的实例
+        PackageManager packageManager = getPackageManager();
+        // getPackageName()是你当前类的包名，0代表是获取版本信息
+        PackageInfo packInfo = null;
+        try {
+            packInfo = packageManager.getPackageInfo(getPackageName(),0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if(packInfo!=null) {
+            String version = packInfo.versionName;
+            return Float.valueOf(version);
+        }
+        return 0;
+    }
 
 }

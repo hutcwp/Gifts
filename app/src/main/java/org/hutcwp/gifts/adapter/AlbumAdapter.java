@@ -83,7 +83,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.GirlViewHold
 
 //        holder.name.setText(imgsList.get(position).getName());
 //        holder.date.setText(imgsList.get(position).getDate());
-
 //        holder.iv.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -95,6 +94,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.GirlViewHold
         //使用params,width 和params.heght 去加载图片
         Glide.with(mContext)
                 .load(imgsList.get(position))
+                .placeholder(R.drawable.default_img)
                 .override(params.width, params.height) //设置加载尺寸
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

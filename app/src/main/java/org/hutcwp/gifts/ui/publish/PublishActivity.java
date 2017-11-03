@@ -51,6 +51,7 @@ public class PublishActivity extends AppCompatActivity {
 
     private LocalBroadcastManager localBroadcastManager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +66,7 @@ public class PublishActivity extends AppCompatActivity {
             @Override
             public void onClick(final View view) {
 
+                binding.progressBar.setVisibility(View.VISIBLE);
                 if (binding.lyContent.etContent.getText().toString().trim().length() == 0) {
                     toast("内容不能为空！");
                 } else {
@@ -135,20 +137,24 @@ public class PublishActivity extends AppCompatActivity {
     /**
      * 发布动态
      */
+
     private void publishDynamic(final List<BmobFile> list) {
 
         Bmob.getServerTime(new QueryListener<Long>() {
 
             @Override
-            public void done(Long time,BmobException e) {
+            public void done(Long time, BmobException e) {
+
+                binding.progressBar.setVisibility(View.INVISIBLE);
+
                 String publishTime = "";
-                if(e==null){
+                if (e == null) {
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                     publishTime = formatter.format(new Date(time * 1000L));
-                    Log.i("bmob","当前服务器时间为:" + publishTime);
+                    Log.i("bmob", "当前服务器时间为:" + publishTime);
 
-                }else{
-                    Log.i("bmob","获取服务器时间失败:" + e.getMessage());
+                } else {
+                    Log.i("bmob", "获取服务器时间失败:" + e.getMessage());
 
                     DateFormat df = new SimpleDateFormat("HH:mm:ss");
                     publishTime = df.format(new Date());
@@ -169,17 +175,18 @@ public class PublishActivity extends AppCompatActivity {
                     @Override
                     public void done(String objectId, BmobException e) {
                         if (e == null) {
-                            toast("添加Dynamic成功，返回objectId为：" + objectId);
+                            toast("发布动态成功！");
+//                            toast("添加Dynamic成功，返回objectId为：" + objectId);
                             PublishActivity.this.finish();
 
                             Intent intent = new Intent("com.nyl.orderlybroadcast.AnotherBroadcastReceiver");
                             //发送本地广播
-                            localBroadcastManager =LocalBroadcastManager.getInstance(PublishActivity.this);
+                            localBroadcastManager = LocalBroadcastManager.getInstance(PublishActivity.this);
                             localBroadcastManager.sendBroadcast(intent);
-
                         } else {
-                            toast("创建Dynamic失败：" + e.getMessage());
-                            Log.d(TAG,"msg:"+e.getMessage());
+                            toast("发布动态失败！");
+//                            toast("创建Dynamic失败：" + e.getMessage());
+                            Log.d(TAG, "msg:" + e.getMessage());
                         }
                     }
                 });

@@ -49,7 +49,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         //使用params,width 和params.heght 去加载图片
         Glide.with(mContext)
                 .load(imgUrls.get(position).getUrl())
-                .placeholder(R.drawable.app_logo)
+                .placeholder(R.drawable.default_img)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.ivImg);//加载网络图片

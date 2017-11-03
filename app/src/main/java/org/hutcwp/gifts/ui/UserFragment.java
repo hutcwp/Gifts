@@ -3,6 +3,7 @@ package org.hutcwp.gifts.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
+import android.widget.Toast;
 
 import org.hutcwp.gifts.R;
 import org.hutcwp.gifts.app.AppGlobal;
@@ -57,9 +58,17 @@ public class UserFragment extends BaseFragment {
             }
         });
 
+        binding.lyTag.tagFour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "对方接受了你的撩，并向你抛了一个媚眼！", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         //隐藏左边
         binding.lyTitle.setLeftBtnVisibility(View.INVISIBLE);
         binding.lyTitle.setTitle("个人中心");
+        binding.lyTitle.setRightBtnVisibility(View.INVISIBLE);
         binding.tvSignature.setText(AppGlobal.SIGNATURE);
 
         //获取头像

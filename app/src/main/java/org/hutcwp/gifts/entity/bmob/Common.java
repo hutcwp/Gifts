@@ -16,6 +16,25 @@ public class Common extends BmobObject {
     private String phoneNumber ;
     private String QQNumber ;
     private String[] spannerImg ;
+    private float versionCode;
+
+    private String updateUrl ;
+
+    public String getUpdateUrl() {
+        return updateUrl;
+    }
+
+    public void setUpdateUrl(String updateUrl) {
+        this.updateUrl = updateUrl;
+    }
+
+    public float getVersionCode() {
+        return versionCode;
+    }
+
+    public void setVersionCode(float versionCode) {
+        this.versionCode = versionCode;
+    }
 
     public String getDailyNotify() {
         return dailyNotify;

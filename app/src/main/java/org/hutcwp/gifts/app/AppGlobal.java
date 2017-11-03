@@ -14,6 +14,10 @@ public class AppGlobal {
 
     public static final String FILE_NAME = "share_data";
 
+    public static  String NEW_VERSION_URL = null;
+
+    public static  String  REMEMBER_PWD = "remember_pwd";
+
     //QQ号码
     public static String QQNumber = "1049622082";
 

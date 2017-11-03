@@ -31,12 +31,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="80dp"
             app:srcCompat="@android:drawable/ic_menu_send" />
 
         <include
             android:id="@+id/ly_content"
             layout="@layout/content_content" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
 
     </android.support.design.widget.CoordinatorLayout>
 
