@@ -1,10 +1,22 @@
 package org.hutcwp.gifts.ui;
 
+import android.Manifest;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -12,15 +24,27 @@ import android.widget.Toast;
 import org.hutcwp.gifts.R;
 import org.hutcwp.gifts.app.AppGlobal;
 import org.hutcwp.gifts.databinding.ActivityMainBinding;
+import org.hutcwp.gifts.entity.bmob.Common;
 import org.hutcwp.gifts.ui.base.BaseActivity;
 import org.hutcwp.gifts.view.BottomTiltle;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.QueryListener;
 
 public class MainActivity extends BaseActivity {
 
 
-    ActivityMainBinding binding;
+    private ActivityMainBinding binding;
 
-    String TAG = "tag";
+    String TAG = "MainActivity";
 
     private String currentFragmentTag;
 
@@ -60,6 +84,10 @@ public class MainActivity extends BaseActivity {
         fragmentManager = getSupportFragmentManager();
 
         initFragment(savedInstanceState);
+
+        //初始化一次动态属性
+        queryCommon();
+
     }
 
     /**
@@ -82,7 +110,6 @@ public class MainActivity extends BaseActivity {
             @Override
             public void middleItemClick() {
                 switchContent(FRAGMENT_TAG_HOME);
-
             }
         });
 
@@ -153,7 +180,250 @@ public class MainActivity extends BaseActivity {
         }
         ft.commit();
         currentFragmentTag = name;
+    }
+
+
+    //检测本程序的版本，这里假设从服务器中获取到最新的版本号为3
+    public void checkVersion(float serverVersionCode) {
+        //如果检测本程序的版本号小于服务器的版本号，那么提示用户更新
+        if (getVersionCode() < serverVersionCode) {
+            Log.d(TAG, "checkVersion: "+"client:"+getVersionCode() + "  "+"server:"+serverVersionCode);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            } else {
+                showDialogUpdate();//弹出提示版本更新的对话框
+            }
+
+        } else {
+            //否则吐司，说现在是最新的版本
+//            Toast.makeText(this,"当前已经是最新的版本",Toast.LENGTH_SHORT).show();
+        }
 
     }
 
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 1) {
+            showDialogUpdate();
+        } else {
+            Log.d("getFileFromServer", "没有写入内存大的权限");
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    /**
+     * 提示版本更新的对话框
+     */
+    private void showDialogUpdate() {
+        // 这里的属性可以一直设置，因为每次设置后返回的是一个builder对象
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // 设置提示框的标题
+        builder.setTitle("版本升级").
+                // 设置提示框的图标
+                        setIcon(R.mipmap.ic_launcher).
+                // 设置要显示的信息
+                        setMessage("发现新版本！请及时更新").
+                // 设置确定按钮
+                        setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Toast.makeText(MainActivity.this, "选择确定哦", 0).show();
+                        loadNewVersionProgress(AppGlobal.NEW_VERSION_URL);//下载最新的版本程序
+                    }
+                }).
+
+                // 设置取消按钮,null是什么都不做，并关闭对话框
+                        setNegativeButton("取消", null);
+
+        // 生产对话框
+        AlertDialog alertDialog = builder.create();
+        // 显示对话框
+        alertDialog.show();
+
+
+    }
+
+
+    /**
+     * 下载新版本程序
+     */
+    private void loadNewVersionProgress(final String url) {
+
+        if(url ==null || TextUtils.isEmpty(url)){
+            Toast.makeText(MainActivity.this,"新版本地址错误，请联系管理员",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        final ProgressDialog pd;    //进度条对话框
+        pd = new ProgressDialog(this);
+        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        pd.setMessage("正在下载更新");
+        pd.show();
+        //启动子线程下载任务
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    File file = getFileFromServer(url, pd);
+                    sleep(5000);
+                    installApk(file);
+                    pd.dismiss(); //结束掉进度条对话框
+
+
+                } catch (Exception e) {
+                    //下载apk失败
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "下载新版本失败", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    e.printStackTrace();
+                    Log.d("getFileFromServer", e.getMessage());
+                }
+            }
+        }.start();
+    }
+
+    /**
+     * 安装apk
+     */
+    protected void installApk(File file) {
+        Intent intent = new Intent();
+        //执行动作
+        intent.setAction(Intent.ACTION_VIEW);
+        //执行的数据类型
+        intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+        startActivity(intent);
+    }
+
+
+    /**
+     * 从服务器获取apk文件的代码
+     * 传入网址uri，进度条对象即可获得一个File文件
+     * （要在子线程中执行哦）
+     */
+    public static File getFileFromServer(String uri, ProgressDialog pd) throws Exception {
+        //如果相等的话表示当前的sdcard挂载在手机上并且是可用的
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            URL url = new URL(uri);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
+            //获取到文件的大小
+            pd.setMax(conn.getContentLength());
+            InputStream is = conn.getInputStream();
+            long time = System.currentTimeMillis();//当前时间的毫秒数
+            File file = new File(Environment.getExternalStorageDirectory(), time + "updata.apk");
+            FileOutputStream fos = new FileOutputStream(file);
+            BufferedInputStream bis = new BufferedInputStream(is);
+            byte[] buffer = new byte[1024];
+            int len;
+            int total = 0;
+            while ((len = bis.read(buffer)) != -1) {
+                Log.d("getFileFromServer", "total:" + total + "   cur:" + len);
+                fos.write(buffer, 0, len);
+                total += len;
+                //获取当前下载量
+                pd.setProgress(total);
+            }
+            fos.close();
+            bis.close();
+            is.close();
+            return file;
+        } else {
+            return null;
+        }
+    }
+
+
+    /**
+     * 获取轮播图的图片地址
+     */
+    private void queryCommon() {
+
+        BmobQuery<Common> query = new BmobQuery<>();
+        query.getObject("62c7db275d", new QueryListener<Common>() {
+
+            @Override
+            public void done(Common object, BmobException e) {
+                if (e == null) {
+                    object.getObjectId();
+                    //获得createdAt数据创建时间（注意是：createdAt，不是createAt）
+                    object.getCreatedAt();
+
+                    String[] newImgs = object.getSpannerImg();
+                    String mQQ = object.getQQNumber();
+                    String phoneNumber = object.getPhoneNumber();
+                    String signature = object.getSignature();
+                    String dailyNotify = object.getDailyNotify();
+                    String newVersionUrl = object.getUpdateUrl();
+                    float versionCode = object.getVersionCode();
+
+                    if (!isNULL(newVersionUrl)){
+                        AppGlobal.NEW_VERSION_URL = newVersionUrl;
+                        if (!isNULL(versionCode)&&versionCode!=0) {
+                            checkVersion(versionCode);
+                        }
+                    }
+
+                    if (!isNULL(newImgs)) {
+                        AppGlobal.IMGS_SPANNER = newImgs;
+                    }
+                    if (!isNULL(mQQ)) {
+                        AppGlobal.QQMyself = mQQ;
+                    }
+                    if (!isNULL(phoneNumber)) {
+                        AppGlobal.PHONE_NUMBER = phoneNumber;
+                    }
+                    if (!isNULL(signature)) {
+                        AppGlobal.SIGNATURE = signature;
+                    }
+                    if (!isNULL(dailyNotify)) {
+                        AppGlobal.DailyNotify = dailyNotify;
+                    }
+
+                } else {
+                    Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());
+                }
+
+            }
+        });
+
+    }
+
+    //判空
+    private boolean isNULL(Object obj) {
+
+        if (obj == null) {
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * 2  * 获取版本号
+     * 3  * @return 当前应用的版本号
+     * 4
+     */
+    public float getVersionCode() {
+        // 获取packagemanager的实例
+        PackageManager packageManager = getPackageManager();
+        // getPackageName()是你当前类的包名，0代表是获取版本信息
+        PackageInfo packInfo = null;
+        try {
+            packInfo = packageManager.getPackageInfo(getPackageName(),0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if(packInfo!=null) {
+            String version = packInfo.versionName;
+            return Float.valueOf(version);
+        }
+        return 0;
+    }
+
 }
+
