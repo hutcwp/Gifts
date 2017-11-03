@@ -187,7 +187,7 @@ public class MainActivity extends BaseActivity {
     public void checkVersion(float serverVersionCode) {
         //如果检测本程序的版本号小于服务器的版本号，那么提示用户更新
         if (getVersionCode() < serverVersionCode) {
-            Log.d(TAG, "checkVersion: " + "client:" + getVersionCode() + "  " + "server:" + serverVersionCode);
+            Log.d(TAG, "checkVersion: "+"client:"+getVersionCode() + "  "+"server:"+serverVersionCode);
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             } else {
@@ -251,8 +251,8 @@ public class MainActivity extends BaseActivity {
      */
     private void loadNewVersionProgress(final String url) {
 
-        if (url == null || TextUtils.isEmpty(url)) {
-            Toast.makeText(MainActivity.this, "新版本地址错误，请联系管理员", Toast.LENGTH_SHORT).show();
+        if(url ==null || TextUtils.isEmpty(url)){
+            Toast.makeText(MainActivity.this,"新版本地址错误，请联系管理员",Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -343,106 +343,6 @@ public class MainActivity extends BaseActivity {
      */
     private void queryCommon() {
 
-
-        /**
-         * 下载新版本程序
-         */
-        private void loadNewVersionProgress ( final String url){
-
-            if (url == null || TextUtils.isEmpty(url)) {
-                Toast.makeText(MainActivity.this, "新版本地址错误，请联系管理员", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            final ProgressDialog pd;    //进度条对话框
-            pd = new ProgressDialog(this);
-            pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            pd.setMessage("正在下载更新");
-            pd.show();
-            //启动子线程下载任务
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        File file = getFileFromServer(url, pd);
-                        sleep(5000);
-                        installApk(file);
-                        pd.dismiss(); //结束掉进度条对话框
-
-
-                    } catch (Exception e) {
-                        //下载apk失败
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "下载新版本失败", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                        e.printStackTrace();
-                        Log.d("getFileFromServer", e.getMessage());
-                    }
-                }
-            }.start();
-        }
-
-        /**
-         * 安装apk
-         */
-
-    protected void installApk(File file) {
-        Intent intent = new Intent();
-        //执行动作
-        intent.setAction(Intent.ACTION_VIEW);
-        //执行的数据类型
-        intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
-        startActivity(intent);
-    }
-
-
-    /**
-     * 从服务器获取apk文件的代码
-     * 传入网址uri，进度条对象即可获得一个File文件
-     * （要在子线程中执行哦）
-     */
-    public static File getFileFromServer(String uri, ProgressDialog pd) throws Exception {
-        //如果相等的话表示当前的sdcard挂载在手机上并且是可用的
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            URL url = new URL(uri);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setConnectTimeout(5000);
-            //获取到文件的大小
-            pd.setMax(conn.getContentLength());
-            InputStream is = conn.getInputStream();
-            long time = System.currentTimeMillis();//当前时间的毫秒数
-            File file = new File(Environment.getExternalStorageDirectory(), time + "updata.apk");
-            FileOutputStream fos = new FileOutputStream(file);
-            BufferedInputStream bis = new BufferedInputStream(is);
-            byte[] buffer = new byte[1024];
-            int len;
-            int total = 0;
-            while ((len = bis.read(buffer)) != -1) {
-                Log.d("getFileFromServer", "total:" + total + "   cur:" + len);
-                fos.write(buffer, 0, len);
-                total += len;
-                //获取当前下载量
-                pd.setProgress(total);
-            }
-            fos.close();
-            bis.close();
-            is.close();
-            return file;
-        } else {
-            return null;
-        }
-    }
-
-
-    /**
-     * 获取轮播图的图片地址
-     */
-    private void queryCommon() {
-
-        refs / remotes / origin / master
         BmobQuery<Common> query = new BmobQuery<>();
         query.getObject("62c7db275d", new QueryListener<Common>() {
 
@@ -461,9 +361,9 @@ public class MainActivity extends BaseActivity {
                     String newVersionUrl = object.getUpdateUrl();
                     float versionCode = object.getVersionCode();
 
-                    if (!isNULL(newVersionUrl)) {
+                    if (!isNULL(newVersionUrl)){
                         AppGlobal.NEW_VERSION_URL = newVersionUrl;
-                        if (!isNULL(versionCode) && versionCode != 0) {
+                        if (!isNULL(versionCode)&&versionCode!=0) {
                             checkVersion(versionCode);
                         }
                     }
@@ -514,11 +414,11 @@ public class MainActivity extends BaseActivity {
         // getPackageName()是你当前类的包名，0代表是获取版本信息
         PackageInfo packInfo = null;
         try {
-            packInfo = packageManager.getPackageInfo(getPackageName(), 0);
+            packInfo = packageManager.getPackageInfo(getPackageName(),0);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        if (packInfo != null) {
+        if(packInfo!=null) {
             String version = packInfo.versionName;
             return Float.valueOf(version);
         }
@@ -526,4 +426,3 @@ public class MainActivity extends BaseActivity {
     }
 
 }
-
